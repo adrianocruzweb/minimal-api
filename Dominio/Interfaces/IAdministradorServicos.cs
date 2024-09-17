@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using MinimalAPI.Dominio.Entidades;
 using MinimalAPI.DTO;
 
-namespace MinimalAPI.Infraestrutura.Interfaces
+namespace MinimalAPI.Dominio.Interfaces
 {
-    public interface IAdministradorServicos
+    public interface IAdministradorServico
     {
-        List<Administrador> Login(LoginDTO loginDTO);
+        Administrador? Login(LoginDTO loginDTO);
     }
 }
