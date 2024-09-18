@@ -153,7 +153,7 @@ app.MapPost("/veiculos", ([FromBody] VeiculoDTO veiculoDTO, IVeiculoServico veic
     veiculoServico.Incluir(veiculo);
 
     return Results.Created($"/veiculo/{veiculo.Id}", veiculo);
-}).WithTags("Veiculo");
+}).RequireAuthorization().WithTags("Veiculo");
 
 app.MapGet("/veiculos", ([FromQuery] int? pagina, IVeiculoServico veiculoServico) => {
     var veiculos = veiculoServico.Todos(pagina);
@@ -165,7 +165,7 @@ app.MapGet("/veiculos/{id}", ([FromRoute] int id, IVeiculoServico veiculoServico
     if(veiculo == null)
         return Results.NotFound("Não encontrado");
     return Results.Ok(veiculo);
-}).WithTags("Veiculo");
+}).RequireAuthorization().WithTags("Veiculo");
 
 app.MapPut("/veiculos/{id}", ([FromRoute] int id, VeiculoDTO veiculoDTO, IVeiculoServico veiculoServico) => {
 
@@ -184,7 +184,7 @@ app.MapPut("/veiculos/{id}", ([FromRoute] int id, VeiculoDTO veiculoDTO, IVeicul
     veiculoServico.Atualizar(veiculo);
 
     return Results.Ok(veiculo);
-}).WithTags("Veiculo");
+}).RequireAuthorization().WithTags("Veiculo");
 
 app.MapDelete("/veiculos/{id}", ([FromRoute] int id, IVeiculoServico veiculoServico) => {
     var veiculo = veiculoServico.BuscaPorId(id);
@@ -194,7 +194,7 @@ app.MapDelete("/veiculos/{id}", ([FromRoute] int id, IVeiculoServico veiculoServ
     veiculoServico.Remover(veiculo);
 
     return Results.NoContent();
-}).WithTags("Veiculo");
+}).RequireAuthorization().WithTags("Veiculo");
 #endregion
 
 #endregion
