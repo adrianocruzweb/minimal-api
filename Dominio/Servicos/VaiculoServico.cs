@@ -41,7 +41,7 @@ namespace MinimalAPI.Dominio.Servicos
             _contexto.SaveChanges();
         }
 
-        public List<Veiculo> Todos(int pagina = 1, string nome = null, string marca = null)
+        public List<Veiculo> Todos(int? pagina = 1, string nome = null, string marca = null)
         {
             var veiculoQuery = _contexto.Veiculos.AsQueryable();
             var lista = new List<VeiculoServico>();
@@ -52,12 +52,10 @@ namespace MinimalAPI.Dominio.Servicos
 
             int itensPorPagina = 10;
 
-            veiculoQuery = veiculoQuery.Skip((pagina-1)*itensPorPagina).Take(itensPorPagina);
+            if(pagina != null)
+                veiculoQuery = veiculoQuery.Skip(((int)pagina-1)*itensPorPagina).Take(itensPorPagina);
 
             return veiculoQuery.ToList();
-
-            /* if(lista.Any() && lista.Count() > 0)
-                lista = lista.Add(veiculoQuery); */
         }
     }
 }
