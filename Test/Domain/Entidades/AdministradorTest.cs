@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MinimalAPI.Dominio.Entidades;
 
-namespace Test.Domain
+namespace Test.Domain.Entidades
 {
-[TestClass]
+    [TestClass]
     public class AdministradorTest
     {
         [TestMethod]
