@@ -4,6 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPI.Infraestrutura.Db;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using MinimalAPI.Dominio.Entidades;
+using MinimalAPI.Dominio.Interfaces;
+using Test.Mocks;
 
 namespace Test.Helpers
 {
@@ -14,22 +23,35 @@ namespace Test.Helpers
         public static WebApplicationFactory<Startup> http = default!;
         public static HttpClient client = default!;
 
-        /* public static async Task ExecutaComandoSqlAsync(string sql)
-        {
-            await new DbContexto().Database.ExecuteSqlRawAsync(sql);
-        } */
+       public static void ClassInit(TestContext testContent)
+       {
+            Setup.testContext = testContent;
+            Setup.http = new WebApplicationFactory<Startup>();
 
-        /* public static async Task<int> ExecutaEntityCountAsync(int id, string nome)
-        {
-            return await new DbContexto().Clientes.Where(c=>c.Id==id && c.Nome==nome).FirstOrDefaultAsync();
-        } */
+            Setup.http = Setup.http.WithWebHostBuilder(builder =>
+            {
+                builder.UseSetting("https_port", Setup.PORT).UseEnvironment("Testing");
+                builder.ConfigureServices(services =>
+                {
+                    services.AddScoped<IAdministradorServico, AdministradorServicoMock>();
+                    //services.AddScoped<ILogin<Administrador>, AdministradoresServicoMock>();
+                });
+            });
 
-        /* public static async Task FakeClienteAsync()
-        {
-            await new DbContexto().Database.ExecuteSqlRawAsync("""
-            insert lientes(Nome,Telefone,Email,DataCriacao)
-            values('Danilo', '(11)11111-1111', 'email@teste.com', '2022-12-15 06:09:0000')
-            """);
-        } */
+
+            /* //==Caso quaira deixar o teste com conexao diferente ==//
+            var conexao = "Server=localhost;Database=minimalapitest;User=root;Password=root;"
+            services.AddDbContext<DbContexto>(options => {
+                options.UseMySql(conexao,ServerVersion.AutoDetect(conexao));
+            }); */
+
+            Setup.client = Setup.http.CreateClient();
+       }
+
+       public static void ClassCleanup()
+       {
+            Setup.http.Dispose();
+       }
+
     }
 }

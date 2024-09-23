@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MinimalAPI;
 using MinimalAPI.Dominio.Entidades;
 using MinimalAPI.Dominio.Enuns;
 using MinimalAPI.Dominio.Interfaces;
@@ -16,6 +15,9 @@ using MinimalAPI.Dominio.ModelViews;
 using MinimalAPI.Dominio.Servicos;
 using MinimalAPI.DTO;
 using MinimalAPI.Infraestrutura.Db;
+
+using MinimalAPI;
+
 
 public class Startup
 {
